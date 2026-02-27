@@ -125,7 +125,7 @@ export default function Drivers() {
 
       {/* Driver Detail Modal */}
       {selectedDriver && (
-        <DriverDetailModal driver={selectedDriver} onClose={handleCloseModal} />
+        <DriverDetailModal driver={selectedDriver} onClose={handleCloseModal} refetchDrivers={refetch} />
       )}
     </div>
   );

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FiEye, FiPhone, FiMail } from 'react-icons/fi';
+import { FiPhone, FiMail } from 'react-icons/fi';
 import { StatusBadge } from '../shared';
 
 // Format the wait time since rider started waiting
@@ -66,12 +66,11 @@ export default function RiderTable({ riders, onViewRider }) {
             <th className="table-header">Login</th>
             <th className="table-header">Ride Status</th>
             <th className="table-header">Wait Time</th>
-            <th className="table-header text-right">Actions</th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-admin-200">
           {riders.map((rider) => (
-            <tr key={rider.id} className="hover:bg-admin-50 transition-colors">
+            <tr key={rider.id} className="hover:bg-admin-50 transition-colors cursor-pointer" onClick={() => onViewRider(rider)}>
               <td className="table-cell">
                 <div className="flex items-center">
                   <div className="h-10 w-10 flex-shrink-0">
@@ -123,15 +122,6 @@ export default function RiderTable({ riders, onViewRider }) {
                 }`}>
                   {formatWaitTime(rider.waitingStartedAt, rider.rideFlowStatus, currentTime)}
                 </span>
-              </td>
-              <td className="table-cell text-right">
-                <button
-                  onClick={() => onViewRider(rider)}
-                  className="text-admin-500 hover:text-admin-700 p-2"
-                  title="View details"
-                >
-                  <FiEye size={18} />
-                </button>
               </td>
             </tr>
           ))}

@@ -1,4 +1,4 @@
-import { FiEye, FiPhone, FiMail } from 'react-icons/fi';
+import { FiPhone, FiMail } from 'react-icons/fi';
 import { StatusBadge } from '../shared';
 
 // Format the next available time
@@ -51,12 +51,11 @@ export default function DriverTable({ drivers, onViewDriver }) {
             <th className="table-header">Login</th>
             <th className="table-header">Duty</th>
             <th className="table-header">Next Available</th>
-            <th className="table-header text-right">Actions</th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-admin-200">
           {drivers.map((driver) => (
-            <tr key={driver.id} className="hover:bg-admin-50 transition-colors">
+            <tr key={driver.id} className="hover:bg-admin-50 transition-colors cursor-pointer" onClick={() => onViewDriver(driver)}>
               <td className="table-cell">
                 <div className="flex items-center">
                   <div className="h-10 w-10 flex-shrink-0">
@@ -120,15 +119,6 @@ export default function DriverTable({ drivers, onViewDriver }) {
                 }`}>
                   {formatNextAvailable(driver.driverNextAvailableAt)}
                 </span>
-              </td>
-              <td className="table-cell text-right">
-                <button
-                  onClick={() => onViewDriver(driver)}
-                  className="text-admin-500 hover:text-admin-700 p-2"
-                  title="View details"
-                >
-                  <FiEye size={18} />
-                </button>
               </td>
             </tr>
           ))}

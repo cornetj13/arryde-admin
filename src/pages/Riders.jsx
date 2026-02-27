@@ -124,7 +124,7 @@ export default function Riders() {
 
       {/* Rider Detail Modal */}
       {selectedRider && (
-        <RiderDetailModal rider={selectedRider} onClose={handleCloseModal} />
+        <RiderDetailModal rider={selectedRider} onClose={handleCloseModal} refetchRiders={refetch} />
       )}
     </div>
   );

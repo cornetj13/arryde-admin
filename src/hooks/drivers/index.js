@@ -4,3 +4,4 @@ export {
   useDriverLoginStatusSubscription,
   useDriverAvailabilitySubscription
 } from './useDriverSubscriptions';
+export { useUpdateDriver, useDeleteDriver } from './useDriverMutations';
