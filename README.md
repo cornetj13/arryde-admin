@@ -44,5 +44,5 @@ VITE_API_GRAPHQL_WS=wss://rideshare-api-production.up.railway.app/graphql
 
 ## Related Projects
 
-- [rideshare-api](https://github.com/yourusername/rideshare-api) - Backend GraphQL API
-- [bham-rideshare](https://github.com/yourusername/bham-rideshare) - User-facing frontend
+- [arryde-api](https://github.com/cornetj13/arryde-api) - Backend GraphQL API
+- [arryde-web](https://github.com/cornetj13/arryde-web) - User-facing frontend
