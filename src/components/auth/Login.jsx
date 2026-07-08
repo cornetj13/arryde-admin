@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { useLoginAdmin } from '../../hooks';
 
@@ -10,6 +10,7 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState('');
   const { login, loading } = useLoginAdmin();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,10 +18,14 @@ export default function Login() {
 
     const result = await login(username, password);
 
-    if (result.success) {
-      navigate('/drivers');
+    if (result?.success) {
+      // Return to the page the admin was heading to (RequireAuth stashes
+      // it), falling back to the dashboard.
+      navigate(location.state?.from?.pathname || '/dashboard', {
+        replace: true,
+      });
     } else {
-      setErrorMessage(result.error || 'Login failed. Please try again.');
+      setErrorMessage(result?.error || 'Login failed. Please try again.');
     }
   };
 

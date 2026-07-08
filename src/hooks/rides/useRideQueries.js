@@ -1,8 +1,8 @@
 import { useQuery, gql } from '@apollo/client';
 
 const GET_ALL_RIDES = gql`
-  query GetAllRides {
-    getAllRides {
+  query GetAllRides($limit: Int, $offset: Int) {
+    getAllRides(limit: $limit, offset: $offset) {
       id
       riderId
       riderName
@@ -63,8 +63,12 @@ const GET_RIDE = gql`
   }
 `;
 
-export const useGetAllRides = () => {
-  const { data, loading, error, refetch } = useQuery(GET_ALL_RIDES);
+// Fetches the newest rides first. `limit` keeps the unbounded rides table
+// from degrading as history grows — pass a larger limit to load more.
+export const useGetAllRides = (limit = 200) => {
+  const { data, loading, error, refetch } = useQuery(GET_ALL_RIDES, {
+    variables: { limit, offset: 0 },
+  });
 
   return {
     rides: data?.getAllRides || [],

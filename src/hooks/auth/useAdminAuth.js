@@ -50,6 +50,10 @@ export const useLoginAdmin = () => {
         setAuth(accessToken, user);
         return { success: true };
       }
+
+      // Resolved without a payload — return a failure instead of undefined
+      // (the caller does result.success and would TypeError).
+      return { success: false, error: 'Login failed. Please try again.' };
     } catch (err) {
       console.error('Login error:', err);
       return { success: false, error: err.message };

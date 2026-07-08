@@ -28,8 +28,8 @@ export default function Riders() {
     showToasts: true,
   });
 
-  // NOTE: This subscription is for development/debugging. Consider removing in production.
-  // Subscribe to login/logout status updates
+  // Live login/logout toasts — kept ON deliberately for the alpha so we can
+  // watch who's actually using the app (admin-only now, per V2.5 filtering).
   useRiderLoginStatusSubscription({
     onLoginStatusUpdate: handleRiderUpdate,
     showToasts: true,

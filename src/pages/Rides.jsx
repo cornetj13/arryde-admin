@@ -14,8 +14,13 @@ const getRideStatus = (ride) => {
   return 'UNKNOWN';
 };
 
+const PAGE_SIZE = 200;
+
 export default function Rides() {
-  const { rides, loading, error, refetch } = useGetAllRides();
+  // Newest-first, paged — the rides table grows forever, so fetch the
+  // latest PAGE_SIZE and let the admin load more on demand.
+  const [limit, setLimit] = useState(PAGE_SIZE);
+  const { rides, loading, error, refetch } = useGetAllRides(limit);
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
   const [selectedRide, setSelectedRide] = useState(null);
@@ -114,7 +119,21 @@ export default function Rides() {
       {loading && rides.length === 0 ? (
         <Loading message="Loading rides..." />
       ) : (
-        <RideTable rides={filteredRides} onViewRide={handleViewRide} />
+        <>
+          <RideTable rides={filteredRides} onViewRide={handleViewRide} />
+          {/* If we got a full page, there may be older rides beyond it */}
+          {rides.length >= limit && (
+            <div className="text-center">
+              <button
+                onClick={() => setLimit((l) => l + PAGE_SIZE)}
+                className="btn-secondary"
+                disabled={loading}
+              >
+                {loading ? 'Loading…' : 'Load older rides'}
+              </button>
+            </div>
+          )}
+        </>
       )}
 
       {/* Ride Detail Modal */}
