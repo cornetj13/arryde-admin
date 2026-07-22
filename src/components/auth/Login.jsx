@@ -50,7 +50,9 @@ export default function Login() {
             </label>
             <input
               id="username"
+              name="username"
               type="text"
+              autoComplete="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="input"
@@ -66,7 +68,9 @@ export default function Login() {
             <div className="relative">
               <input
                 id="password"
+                name="password"
                 type={showPassword ? 'text' : 'password'}
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="input pr-10"
