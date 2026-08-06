@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FiX, FiMail, FiPhone, FiHome, FiCalendar, FiNavigation, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { StatusBadge, ConfirmDeleteModal } from '../shared';
 import { useUpdateRider, useDeleteRider } from '../../hooks';
+import { formatDate } from '../../utils/dates';
 
 export default function RiderDetailModal({ rider, onClose, refetchRiders }) {
   if (!rider) return null;
@@ -17,15 +18,6 @@ export default function RiderDetailModal({ rider, onClose, refetchRiders }) {
 
   const { updateRider, loadingUpdateRider } = useUpdateRider();
   const { deleteRider, loadingDeleteRider } = useDeleteRider();
-
-  const formatDate = (timestamp) => {
-    if (!timestamp) return 'N/A';
-    return new Date(parseInt(timestamp)).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
 
   const validateForm = () => {
     const errors = {};

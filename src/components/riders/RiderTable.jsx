@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FiPhone, FiMail } from 'react-icons/fi';
 import { StatusBadge } from '../shared';
+import { toMillis } from '../../utils/dates';
 
 // Format the wait time since rider started waiting
 const formatWaitTime = (timestamp, rideFlowStatus, currentTime) => {
@@ -8,7 +9,8 @@ const formatWaitTime = (timestamp, rideFlowStatus, currentTime) => {
   if (rideFlowStatus !== 'WAITING' || !timestamp) return 'Not Waiting';
 
   const now = currentTime || Date.now();
-  const waitingStarted = parseInt(timestamp);
+  const waitingStarted = toMillis(timestamp);
+  if (!waitingStarted) return 'Not Waiting';
 
   // If the timestamp is in the future somehow, they just started
   if (waitingStarted > now) return 'Just started';

@@ -1,12 +1,13 @@
 import { FiPhone, FiMail } from 'react-icons/fi';
 import { StatusBadge } from '../shared';
+import { toMillis } from '../../utils/dates';
 
-// Format the next available time
+// Format the next available time (compact form for table cells)
 const formatNextAvailable = (timestamp) => {
-  if (!timestamp) return 'Available Now';
+  const availableTime = toMillis(timestamp);
+  if (!availableTime) return 'Available Now';
 
   const now = Date.now();
-  const availableTime = parseInt(timestamp);
 
   // If the time is in the past, they're available now
   if (availableTime <= now) return 'Available Now';

@@ -9,7 +9,11 @@ const GET_ALL_RIDES = gql`
       phoneNumber
       passengers
       pickUp
+      pickUpLat
+      pickUpLng
       dropOff
+      dropOffLat
+      dropOffLng
       pickUpTime
       date
       bidAmount

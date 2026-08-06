@@ -33,6 +33,23 @@ const REFRESH_ACCESS_TOKEN_ADMIN = gql`
 
 const getAuthState = () => useAuthStore.getState();
 
+// Treat a token as expired slightly early so we never present one that dies
+// in transit. Admin access tokens live 10 minutes, so a persisted token is
+// almost always stale on page load.
+const isTokenExpired = (accessToken, leewaySeconds = 30) => {
+  if (!accessToken) return true;
+  try {
+    const base64 = accessToken
+      .split('.')[1]
+      .replace(/-/g, '+')
+      .replace(/_/g, '/');
+    const decoded = JSON.parse(atob(base64));
+    return decoded.exp < Date.now() / 1000 + leewaySeconds;
+  } catch {
+    return true;
+  }
+};
+
 /* ============================================
    WEBSOCKET CLIENT (module scope — created once)
    ============================================ */
@@ -50,8 +67,13 @@ const wsClient = createClient({
     );
   },
   connectionParams: () => {
+    // Never present an expired token — connect anonymously instead and let
+    // the post-refresh restart below re-establish an authenticated socket.
     const { accessToken } = getAuthState();
-    return accessToken ? { authorization: `Bearer ${accessToken}` } : {};
+    if (accessToken && !isTokenExpired(accessToken)) {
+      return { authorization: `Bearer ${accessToken}` };
+    }
+    return {};
   },
 });
 

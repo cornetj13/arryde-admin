@@ -1,5 +1,7 @@
 import { FiX, FiMapPin, FiUser, FiTruck, FiPhone, FiCalendar, FiClock, FiUsers, FiDollarSign } from 'react-icons/fi';
 import { StatusBadge } from '../shared';
+import { formatDate, formatDateTime } from '../../utils/dates';
+import RideRouteMap from './RideRouteMap';
 
 // Derive a single status string from the ride's boolean flags
 const getRideStatus = (ride) => {
@@ -9,26 +11,6 @@ const getRideStatus = (ride) => {
   if (ride.isAccepted) return 'ACCEPTED';
   if (ride.isRequested) return 'PENDING';
   return 'UNKNOWN';
-};
-
-const formatDate = (timestamp) => {
-  if (!timestamp) return 'N/A';
-  return new Date(parseInt(timestamp)).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-};
-
-const formatDateTime = (timestamp) => {
-  if (!timestamp) return 'N/A';
-  return new Date(parseInt(timestamp)).toLocaleString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-  });
 };
 
 export default function RideDetailModal({ ride, onClose }) {
@@ -97,6 +79,24 @@ export default function RideDetailModal({ ride, onClose }) {
                 </div>
               </div>
             </div>
+
+            {/* Route map — only rides created with Places Autocomplete have
+                stored coordinates; older ones show a note instead. */}
+            {ride.pickUpLat != null || ride.dropOffLat != null ? (
+              <RideRouteMap
+                pickUpLat={ride.pickUpLat}
+                pickUpLng={ride.pickUpLng}
+                dropOffLat={ride.dropOffLat}
+                dropOffLng={ride.dropOffLng}
+                pickUp={ride.pickUp}
+                dropOff={ride.dropOff}
+              />
+            ) : (
+              <div className="text-xs text-admin-400 italic">
+                No map available — this ride was created without location
+                coordinates.
+              </div>
+            )}
           </div>
 
           {/* People */}

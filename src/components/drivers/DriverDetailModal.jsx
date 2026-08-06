@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FiX, FiMail, FiPhone, FiTruck, FiCalendar, FiClock, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { StatusBadge, ConfirmDeleteModal } from '../shared';
 import { useUpdateDriver, useDeleteDriver } from '../../hooks';
+import { formatDate, formatNextAvailable } from '../../utils/dates';
 
 export default function DriverDetailModal({ driver, onClose, refetchDrivers }) {
   if (!driver) return null;
@@ -19,45 +20,6 @@ export default function DriverDetailModal({ driver, onClose, refetchDrivers }) {
 
   const { updateDriver, loadingUpdateDriver } = useUpdateDriver();
   const { deleteDriver, loadingDeleteDriver } = useDeleteDriver();
-
-  const formatDate = (timestamp) => {
-    if (!timestamp) return 'N/A';
-    return new Date(parseInt(timestamp)).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
-
-  const formatNextAvailable = (timestamp) => {
-    if (!timestamp) return 'Available Now';
-
-    const now = Date.now();
-    const availableTime = parseInt(timestamp);
-
-    if (availableTime <= now) return 'Available Now';
-
-    const diffMs = availableTime - now;
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMins / 60);
-
-    if (diffMins < 1) return 'Available Now';
-    if (diffMins < 60) return `In ${diffMins} minutes`;
-    if (diffHours < 24) {
-      const remainingMins = diffMins % 60;
-      return remainingMins > 0
-        ? `In ${diffHours} hours, ${remainingMins} minutes`
-        : `In ${diffHours} hours`;
-    }
-
-    return new Date(availableTime).toLocaleString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-      month: 'short',
-      day: 'numeric',
-    });
-  };
 
   const validateForm = () => {
     const errors = {};

@@ -1,5 +1,6 @@
 import { FiEye, FiMapPin, FiUser, FiTruck } from 'react-icons/fi';
 import { StatusBadge } from '../shared';
+import { formatShortDateTime as formatDateTime } from '../../utils/dates';
 
 // Derive a single status string from the ride's boolean flags
 const getRideStatus = (ride) => {
@@ -9,18 +10,6 @@ const getRideStatus = (ride) => {
   if (ride.isAccepted) return 'ACCEPTED';
   if (ride.isRequested) return 'PENDING';
   return 'UNKNOWN';
-};
-
-// Format a timestamp into a readable date/time string
-const formatDateTime = (timestamp) => {
-  if (!timestamp) return 'N/A';
-  const date = new Date(parseInt(timestamp));
-  return date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-  });
 };
 
 // Format bid amount as currency
