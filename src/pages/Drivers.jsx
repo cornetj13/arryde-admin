@@ -13,7 +13,7 @@ export default function Drivers() {
   const { drivers, loading, error, refetch } = useGetAllDrivers();
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
-  const [selectedDriver, setSelectedDriver] = useState(null);
+  const [selectedDriverId, setSelectedDriverId] = useState(null);
 
   // Handle real-time driver updates
   const handleDriverUpdate = useCallback(() => {
@@ -65,12 +65,20 @@ export default function Drivers() {
     });
   }, [drivers, filter, searchQuery]);
 
+  // Resolve the selection from the live list so the detail modal reflects
+  // edits and refetches (and closes itself if the record is deleted)
+  // instead of showing the snapshot captured at click time.
+  const selectedDriver = useMemo(
+    () => drivers.find((item) => item.id === selectedDriverId) || null,
+    [drivers, selectedDriverId]
+  );
+
   const handleViewDriver = (driver) => {
-    setSelectedDriver(driver);
+    setSelectedDriverId(driver.id);
   };
 
   const handleCloseModal = () => {
-    setSelectedDriver(null);
+    setSelectedDriverId(null);
   };
 
   if (error) {

@@ -5,19 +5,21 @@ import { useUpdateRider, useDeleteRider } from '../../hooks';
 import { formatDate } from '../../utils/dates';
 
 export default function RiderDetailModal({ rider, onClose, refetchRiders }) {
-  if (!rider) return null;
-
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [formValues, setFormValues] = useState({
-    name: rider.name || '',
-    email: rider.email || '',
-    phoneNumber: rider.phoneNumber || '',
+    name: rider?.name || '',
+    email: rider?.email || '',
+    phoneNumber: rider?.phoneNumber || '',
   });
   const [formErrors, setFormErrors] = useState({});
 
   const { updateRider, loadingUpdateRider } = useUpdateRider();
   const { deleteRider, loadingDeleteRider } = useDeleteRider();
+
+  // Every hook above must run on every render (Rules of Hooks) — only bail
+  // out once they're all declared.
+  if (!rider) return null;
 
   const validateForm = () => {
     const errors = {};

@@ -23,7 +23,7 @@ export default function Rides() {
   const { rides, loading, error, refetch } = useGetAllRides(limit);
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
-  const [selectedRide, setSelectedRide] = useState(null);
+  const [selectedRideId, setSelectedRideId] = useState(null);
 
   // Handle real-time ride updates
   const handleRideUpdate = useCallback(() => {
@@ -64,12 +64,20 @@ export default function Rides() {
     });
   }, [rides, filter, searchQuery]);
 
+  // Resolve the selection from the live list so the detail modal reflects
+  // edits and refetches (and closes itself if the record is deleted)
+  // instead of showing the snapshot captured at click time.
+  const selectedRide = useMemo(
+    () => rides.find((item) => item.id === selectedRideId) || null,
+    [rides, selectedRideId]
+  );
+
   const handleViewRide = (ride) => {
-    setSelectedRide(ride);
+    setSelectedRideId(ride.id);
   };
 
   const handleCloseModal = () => {
-    setSelectedRide(null);
+    setSelectedRideId(null);
   };
 
   if (error) {

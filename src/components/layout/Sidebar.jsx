@@ -85,8 +85,8 @@ export default function Sidebar() {
           {/* Footer */}
           <div className={`py-4 border-t border-admin-700 ${sidebarCollapsed ? 'lg:px-2 lg:text-center' : 'px-6'}`}>
             <p className={`text-xs text-admin-500 ${sidebarCollapsed ? 'lg:hidden' : ''}`}>Arryde Admin Dashboard</p>
-            <p className={`text-xs text-admin-600 ${sidebarCollapsed ? 'hidden' : ''}`}>v0.1.0 MVP</p>
-            <p className={`text-xs text-admin-600 ${sidebarCollapsed ? 'hidden lg:block' : 'hidden'}`}>v0.1</p>
+            <p className={`text-xs text-admin-600 ${sidebarCollapsed ? 'hidden' : ''}`}>v2.5</p>
+            <p className={`text-xs text-admin-600 ${sidebarCollapsed ? 'hidden lg:block' : 'hidden'}`}>v2.5</p>
           </div>
         </div>
       </aside>

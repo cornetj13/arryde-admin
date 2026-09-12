@@ -5,21 +5,23 @@ import { useUpdateDriver, useDeleteDriver } from '../../hooks';
 import { formatDate, formatNextAvailable } from '../../utils/dates';
 
 export default function DriverDetailModal({ driver, onClose, refetchDrivers }) {
-  if (!driver) return null;
-
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [formValues, setFormValues] = useState({
-    name: driver.name || '',
-    email: driver.email || '',
-    phoneNumber: driver.phoneNumber || '',
-    carMake: driver.carMake || '',
-    carModel: driver.carModel || '',
+    name: driver?.name || '',
+    email: driver?.email || '',
+    phoneNumber: driver?.phoneNumber || '',
+    carMake: driver?.carMake || '',
+    carModel: driver?.carModel || '',
   });
   const [formErrors, setFormErrors] = useState({});
 
   const { updateDriver, loadingUpdateDriver } = useUpdateDriver();
   const { deleteDriver, loadingDeleteDriver } = useDeleteDriver();
+
+  // Every hook above must run on every render (Rules of Hooks) — only bail
+  // out once they're all declared.
+  if (!driver) return null;
 
   const validateForm = () => {
     const errors = {};

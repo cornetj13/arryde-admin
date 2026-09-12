@@ -8,7 +8,7 @@ export default function Riders() {
   const { riders, loading, error, refetch } = useGetAllRiders();
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
-  const [selectedRider, setSelectedRider] = useState(null);
+  const [selectedRiderId, setSelectedRiderId] = useState(null);
 
   // Handle real-time rider updates
   const handleRiderUpdate = useCallback(() => {
@@ -64,12 +64,20 @@ export default function Riders() {
     });
   }, [riders, filter, searchQuery]);
 
+  // Resolve the selection from the live list so the detail modal reflects
+  // edits and refetches (and closes itself if the record is deleted)
+  // instead of showing the snapshot captured at click time.
+  const selectedRider = useMemo(
+    () => riders.find((item) => item.id === selectedRiderId) || null,
+    [riders, selectedRiderId]
+  );
+
   const handleViewRider = (rider) => {
-    setSelectedRider(rider);
+    setSelectedRiderId(rider.id);
   };
 
   const handleCloseModal = () => {
-    setSelectedRider(null);
+    setSelectedRiderId(null);
   };
 
   if (error) {
