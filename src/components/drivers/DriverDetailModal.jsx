@@ -265,6 +265,12 @@ export default function DriverDetailModal({ driver, onClose, refetchDrivers }) {
                     {driver.licensePlate || 'N/A'}
                   </span>
                 </div>
+                <div className="text-sm">
+                  <span className="text-admin-500">Free Seats:</span>
+                  <span className="ml-2 font-medium text-admin-900">
+                    {driver.seats ?? 'N/A'}
+                  </span>
+                </div>
               </div>
             ) : (
               <p className="text-admin-400">No vehicle information available</p>

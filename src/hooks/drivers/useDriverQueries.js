@@ -14,6 +14,7 @@ const GET_ALL_DRIVERS = gql`
       carMake
       carModel
       carColor
+      seats
       acceptedRidesTotal
       completedRidesTotal
       createdAt
@@ -36,6 +37,7 @@ const GET_DRIVER = gql`
       carMake
       carModel
       carColor
+      seats
       currentRideId
       riderQueue
       acceptedRidesTotal
